@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # http://mywiki.wooledge.org/Bashism
 # see checkbashisms
 
@@ -22,7 +24,10 @@ remove_bashisms()
 	while read -r n ; do
 		echo "$n" | grep -v "{.*}" && continue
 		rs="$(echo "$n" | perl -pe "s|.*\s(.*?{.*?}.*?)\s.*|\1|g" )"
-		res=$(eval echo "$rs")
+		# eval with bash (TODO: parse without bash)
+		rsq=$(echo "$rs" | tr "$" "@" | sed -e "s|@|\\$|g")
+		echo $rs - $rsq
+		res=$(eval echo "$rsq")
 		echo "$n" | perl -pe "s|$rs|$res|g"
 	done < $FILENAME >$FILENAME.tmp
 
@@ -30,7 +35,7 @@ remove_bashisms()
 
 }
 
-for i in $@ ; do
+for i in "$@" ; do
 	remove_bashisms $i
 	#TODO: verbose
 	#checkbashisms $SPECNAME

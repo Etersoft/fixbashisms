@@ -21,9 +21,12 @@ pushd txt
 echo {1,2}text
 %__subst "s|1|2|g" text/{1,eweew}
 %__subst "s|1re er| erer2|g" text/{1,eweew} nono
-mkdir ${LOCATION}/{loc1,dedt,ohi}
-mkdir $LOCATION/{loc1,dedt,ohi}
+mkdir \${LOCATION}/{loc1,dedt,ohi}
+mkdir \$LOCATION/{loc1,dedt,ohi}
+mkdir LOCATION/{loc1,dedt,ohi}
 popd
+
+chmod a+x %buildroot%_datadir/%name/{serv-,epm-}*
 
 %description
 Get version test
